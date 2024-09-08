@@ -34,6 +34,8 @@ async function main() {
   console.log("3. Hard (3 chances)\n");
 
   let choice;
+
+  // Loops until difficulty is set 1, 2 or 3
   do {
     choice = await askQuestions("Enter your choice: ");
     choice = +choice;
@@ -69,6 +71,7 @@ async function main() {
 
   while (chances > 0) {
     let guess;
+    // Loops until entered number is between 1 and 100
     do {
       guess = await askQuestions("Enter your guess: ");
       guess = +guess;
@@ -79,37 +82,28 @@ async function main() {
     attempts++;
     if (guess.toString() === number.toString()) {
       const endTime = new Date();
-      const time = (endTime - startTime) / 1000;
+      const time = (endTime - startTime) / 1000; // Times how long it took user to guess the number
       console.log(
         `Congratulations! You guessed the correct number in ${attempts} attempts.\nYour time to guess this number was ${time} seconds.\n`
       );
+      const score = {
+        difficulty: dif,
+        attempts: attempts,
+      };
+
       if (fs.existsSync("./score.json")) {
+        // Reads and updates existing score data
         const data = await file.readJSON();
-        const score = {
-          difficulty: dif,
-          attempts: attempts,
-        };
         data.score.push(score);
-        data.score.sort((a, b) => {
-          if (difficultyOrder[a.difficulty] > difficultyOrder[b.difficulty]) {
-            return -1;
-          }
-          if (difficultyOrder[a.difficulty] < difficultyOrder[b.difficulty]) {
-            return 1;
-          }
-          if (a.attempts < b.attempts) {
-            return -1;
-          }
-          if (a.attempts > b.attempts) {
-            return 1;
-          }
-        });
+        // Sorts the scoreboard by difficulty (Hard to Easy) and by attempts (fewest to most)
+        data.score.sort(
+          (a, b) =>
+            difficultyOrder[b.difficulty] - difficultyOrder[a.difficulty] ||
+            a.attempts - b.attempts
+        );
         await file.writeJSON(data);
       } else {
-        const score = {
-          difficulty: dif,
-          attempts: attempts,
-        };
+        // Writes first score in file
         await file.writeJSON({ score: [score] });
       }
       break;
@@ -127,6 +121,7 @@ async function main() {
   }
 
   let playAgain;
+  // Loops until answer is 'yes' or 'no'
   do {
     playAgain = await askQuestions(
       "Would you like to play again? (yes or no): "
