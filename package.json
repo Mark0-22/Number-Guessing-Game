@@ -1,0 +1,20 @@
+{
+  "name": "number-guessing-game",
+  "version": "1.0.0",
+  "description": "Number guessing game that runs in CLI",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": " node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Mark0-22/Expense-Tracker.git"
+  },
+  "author": "Marko Jovicic",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Mark0-22/Number-Guessing-Game/issues"
+  },
+  "homepage": "https://github.com/Mark0-22/Expense-Tracker#readme"
+}
